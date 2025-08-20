@@ -2,7 +2,6 @@ import "dotenv/config";
 import mqtt from "mqtt";
 import { prisma } from "./prisma";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface SensorMessage {
   temperature: number;
   lightLevel?: number;
@@ -58,7 +57,7 @@ class MQTTClient {
 
   private async handleMessage(topic: string, message: Buffer) {
     try {
-      const data = JSON.parse(message.toString());
+      const data: SensorMessage = JSON.parse(message.toString()) as SensorMessage;
       console.log("[v0] Mensaje recibido:", data);
 
       if (typeof data.temperature !== "number") {
