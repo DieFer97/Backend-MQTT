@@ -2,10 +2,11 @@
   "name": "my-v0-project",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "start": "node server.js",
+    "start": "tsx server.js",
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
