@@ -21,11 +21,11 @@ model User {
 
 model SensorData {
   id          Int      @id @default(autoincrement())
-  userId      Int?     @map("user_id")
   temperature Float
   lightLevel  Int      @map("lightLevel")
   isAlarm     Boolean  @map("isAlarm")
   timestamp   DateTime @default(now())
+  userId      Int?     @map("user_id")
   user        User?    @relation("UserToSensorData", fields: [userId], references: [id])
 
   @@map("sensor_data")
