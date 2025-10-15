@@ -1,15 +1,12 @@
 import { spawn } from 'child_process';
 import 'dotenv/config';
-import './src/lib/mqtt-init.ts';
+import './src/lib/mqtt-init.js';
 
-// Inicializar cliente MQTT
 console.log('Iniciando cliente MQTT...');
 
-// Esperar un momento para que MQTT se conecte
 setTimeout(() => {
   console.log('Iniciando servidor Next.js...');
   
-  // Iniciar Next.js
   const nextServer = spawn('node', ['node_modules/next/dist/bin/next', 'start'], {
     stdio: 'inherit',
     env: { ...process.env }
