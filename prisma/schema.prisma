@@ -7,12 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
+  nombre       String
+  passwordHash String       @map("password_hash")
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+  sensorData   SensorData[] @relation("UserToSensorData")
+
+  @@map("users")
+}
+
 model SensorData {
   id          Int      @id @default(autoincrement())
+  userId      Int?     @map("user_id")
   temperature Float
-  lightLevel  Int
-  isAlarm     Boolean
+  lightLevel  Int      @map("lightLevel")
+  isAlarm     Boolean  @map("isAlarm")
   timestamp   DateTime @default(now())
+  user        User?    @relation("UserToSensorData", fields: [userId], references: [id])
 
   @@map("sensor_data")
 }

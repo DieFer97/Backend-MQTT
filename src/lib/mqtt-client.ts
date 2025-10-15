@@ -1,3 +1,4 @@
+import { toZonedTime } from 'date-fns-tz';
 import "dotenv/config";
 import mqtt from "mqtt";
 import { prisma } from "./prisma";
@@ -64,14 +65,20 @@ class MQTTClient {
         throw new Error("El campo temperature debe ser un número");
       }
 
+      // Generar timestamp en America/Lima (-05:00)
+      const localDate = toZonedTime(new Date(), 'America/Lima');
+      console.log("[v0] Timestamp generado (UTC):", localDate.toISOString());
+      console.log("[v0] Timestamp generado (local -05:00):", localDate.toLocaleString('en-US', { timeZone: 'America/Lima' }));
+
       const sensorData = await prisma.sensorData.create({
         data: {
           temperature: Number(data.temperature),
           lightLevel: data.lightLevel !== undefined ? Number(data.lightLevel) : 0,
           isAlarm: data.isAlarm !== undefined ? Boolean(data.isAlarm) : false,
+          timestamp: localDate,
         },
       });
-      console.log("[v0] Datos guardados en DB:", sensorData.id);
+      console.log("[v0] Datos guardados en DB:", sensorData);
     } catch (error) {
       console.error("[v0] Error procesando mensaje:", error);
     }
@@ -84,4 +91,4 @@ class MQTTClient {
   }
 }
 
-export const mqttClient = new MQTTClient();
+export const mqttClient = new MQTTClient(); 

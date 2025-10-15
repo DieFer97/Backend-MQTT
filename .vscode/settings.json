@@ -4,10 +4,12 @@
     "cueck",
     "datasource",
     "esnext",
+    "fkey",
     "geist",
     "hivemq",
     "logomark",
     "mqtts",
+    "pkey",
     "postgresql",
     "turbopack",
     "WOKWI"

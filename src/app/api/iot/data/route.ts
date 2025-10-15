@@ -20,7 +20,7 @@ export async function GET(request: Request) {
         }
       };
     }
-    
+
     const data = await prisma.sensorData.findMany({
       where: whereClause,
       orderBy: { timestamp: "desc" },
