@@ -65,7 +65,6 @@ class MQTTClient {
         throw new Error("El campo temperature debe ser un número");
       }
 
-      // Generar timestamp en America/Lima (-05:00)
       const localDate = toZonedTime(new Date(), 'America/Lima');
       console.log("[v0] Timestamp generado (UTC):", localDate.toISOString());
       console.log("[v0] Timestamp generado (local -05:00):", localDate.toLocaleString('en-US', { timeZone: 'America/Lima' }));
