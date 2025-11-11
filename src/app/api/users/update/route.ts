@@ -5,9 +5,9 @@ import { NextResponse } from "next/server"
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { email, name, currentPassword, newPassword, newEmail } = body
+    const { email, nombre, currentPassword, newPassword, newEmail } = body
 
-    if (!email && !name && !newPassword && !newEmail) {
+    if (!email && !nombre && !newPassword && !newEmail) {
       return NextResponse.json({ error: "No hay cambios para guardar" }, { status: 400 })
     }
 
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const updatedUser = await prisma.user.update({
       where: { id: user.id },
       data: {
-        nombre: name ?? user.nombre,
+        nombre: nombre ?? user.nombre,
         email: newEmail ?? user.email,
         passwordHash: newPassword ? await hash(newPassword, 10) : user.passwordHash,
       },
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: "Perfil actualizado correctamente", user: updatedUser },
-      { status: 200 },
+      { status: 200 }
     )
   } catch (error) {
     console.error("Error al actualizar perfil:", error)
