@@ -20,6 +20,8 @@ class MQTTClient {
   };
 
   connect() {
+    console.log("[v0] connect() llamado, config:", this.config);
+
     console.log("[v0] Conectando a MQTT broker...");
     this.client = mqtt.connect(`mqtt://${this.config.broker}:${this.config.port}`, {
       clean: true,
@@ -33,6 +35,7 @@ class MQTTClient {
     });
 
     this.client.on("message", (topic, message) => {
+      console.log("[v0] message event recibido, topic:", topic);
       this.handleMessage(topic, message);
     });
 
@@ -67,7 +70,10 @@ class MQTTClient {
 
       const localDate = toZonedTime(new Date(), 'America/Lima');
       console.log("[v0] Timestamp generado (UTC):", localDate.toISOString());
-      console.log("[v0] Timestamp generado (local -05:00):", localDate.toLocaleString('en-US', { timeZone: 'America/Lima' }));
+      console.log(
+        "[v0] Timestamp generado (local -05:00):",
+        localDate.toLocaleString('en-US', { timeZone: 'America/Lima' })
+      );
 
       const sensorData = await prisma.sensorData.create({
         data: {
@@ -90,4 +96,4 @@ class MQTTClient {
   }
 }
 
-export const mqttClient = new MQTTClient(); 
+export const mqttClient = new MQTTClient();
